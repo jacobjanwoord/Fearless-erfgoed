@@ -1,4 +1,5 @@
 nk_collection_meubels/
+scraped_images/
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
