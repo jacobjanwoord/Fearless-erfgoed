@@ -30,53 +30,74 @@ def images_are_same(image1, image2):
 
     # Check if similarity index is above the threshold
     return similarity_index > threshold
+try:
+    for i in range(0, 2388):
+        print(i)
+        # URL of the webpage to scrape
+        url = f"https://www.dhm.de/datenbank/ccp/dhm_ccp.php?seite=8&current={i * 20}"
+        print(url)
 
-for i in range(2388):
-    print(i)
-    # URL of the webpage to scrape
-    url = f"https://www.dhm.de/datenbank/ccp/dhm_ccp.php?seite=8&current={i * 20}"
-    print(url)
+        try:
+            # Send a GET request to the webpage with cookies
+            response = requests.get(url, cookies=cookies, timeout=10)
+            response.raise_for_status()  # Check if the request was successful
 
-    try:
-        # Send a GET request to the webpage with cookies
-        response = requests.get(url, cookies=cookies, timeout=10)
-        response.raise_for_status()  # Check if the request was successful
+            # Parse the HTML content
+            soup = BeautifulSoup(response.content, 'html.parser')
 
-        # Parse the HTML content
-        soup = BeautifulSoup(response.content, 'html.parser')
+            # Find all image tags
+            img_tags = soup.find_all('img')
 
-        # Find all image tags
-        img_tags = soup.find_all('img')
+            tables = soup.find_all('table', class_='karteikarte')
 
-        for img in img_tags:
-            img_url = img.get('src')
-            if img_url and 'displayimg' in img_url:
-                # Construct full URL
-                img_url = urljoin(url, img_url)
+            index = 0
+            for img in img_tags:
+                img_url = img.get('src')
 
-                try:
-                    # Get the image content with cookies
-                    img_response = requests.get(img_url, cookies=cookies, timeout=10)
-                    img_response.raise_for_status()
+                if img_url and 'displayimg' in img_url:
 
-                    # Read the image as an array
-                    img_array = io.imread(BytesIO(img_response.content))
+                    munich_no = tables[index].find_all('td', class_='value')[0].get_text(strip=True)
+                    munich_no = munich_no.replace('/', '-')
+                    
+                    index += 1
+                    if munich_no != '-':
+                        # Construct full URL
 
-                    if not images_are_same(img_array, keinbild_image):
+                        img_url = urljoin(url, img_url)
 
-                        # Extract image filename
-                        img_name = os.path.join(img_dir, os.path.basename(img_url))
+                        try:
+                            # Get the image content with cookies
+                            img_response = requests.get(img_url, cookies=cookies, timeout=10)
+                            img_response.raise_for_status()
 
-                        # Ensure the file has a .jpg extension
-                        if not img_name.endswith('.jpg'):
-                            img_name += '.jpg'
+                            # Read the image as an array
+                            img_array = io.imread(BytesIO(img_response.content))
 
-                        # Save the image
-                        with open(img_name, 'wb') as img_file:
-                            img_file.write(img_response.content)
+                            if not images_are_same(img_array, keinbild_image):
 
-                except requests.exceptions.RequestException as img_err:
-                    print(f"Failed to download image {img_url}: {img_err}")
+                                # Extract image filename
+                                find_id = img_url.find('id=')
+                                img_basename = img_url[find_id: find_id + 11]
 
-    except requests.exceptions.RequestException as e:
-        print(f"An error occurred: {e}")
+                                find_folder = img_url.find('folder=')
+                                img_basename = img_basename + '_' + img_url[find_folder + 7:]
+                                img_name = f"{munich_no}_{img_basename}"
+
+
+                                # Ensure the file has a .jpg extension
+                                if not img_name.endswith('.jpg'):
+                                    img_name += '.jpg'
+
+                                img_path = os.path.join(img_dir, img_name)
+
+                                # Save the image
+                                with open(img_path, 'wb') as img_file:
+                                    img_file.write(img_response.content)
+
+                        except requests.exceptions.RequestException as img_err:
+                            print(f"Failed to download image {img_url}: {img_err}")
+
+        except requests.exceptions.RequestException as e:
+            print(f"An error occurred: {e}")
+except KeyboardInterrupt:
+    print("Script interrupted by user. Exiting...")
