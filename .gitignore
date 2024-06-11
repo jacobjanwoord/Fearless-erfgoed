@@ -1,5 +1,7 @@
 nk_collection_meubels/
 scraped_images/
+scraped_images_grayscaled/
+scraped_images_grayscaled_big/
 nk_collection_meubels_cleaned/
 # Byte-compiled / optimized / DLL files
 __pycache__/
