@@ -38,8 +38,8 @@ def sift_similarity(img1, img2):
     return similarity_percentage
 
 # Load two grayscale images
-img1 = cv2.imread('nk_collection_meubels_cleaned/meubel_5.jpg', cv2.IMREAD_GRAYSCALE)
-img2 = cv2.imread('nk_collection_meubels_cleaned/meubel_6.jpg', cv2.IMREAD_GRAYSCALE)
+img1 = cv2.imread('nk_collection_meubels_cleaned/meubel_1.jpg', cv2.IMREAD_GRAYSCALE)
+img2 = cv2.imread('nk_collection_meubels_cleaned/meubel_3.jpg', cv2.IMREAD_GRAYSCALE)
 
 if img1 is None or img2 is None:
     print("Could not open or find the images!")
