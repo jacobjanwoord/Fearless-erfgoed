@@ -4,6 +4,7 @@ scraped_images_grayscaled/
 scraped_images_grayscaled_big/
 nk_collection_meubels_cleaned/
 Test_dataset/
+test images/
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

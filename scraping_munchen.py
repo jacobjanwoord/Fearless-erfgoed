@@ -9,6 +9,8 @@ from io import BytesIO
 
 cookies = {'PHPSESSID': 'u6h1scn6knqdj77di40e2n6uo3'}
 
+all_sizes = []
+
 # Directory to save images
 img_dir = "scraped_images"
 if not os.path.exists(img_dir):
@@ -20,7 +22,7 @@ keinbild_image = io.imread(keinbild_path)
 def images_are_same(image1, image2):
     if image1.shape != image2.shape:
         return False
-    
+
 
     # Compute SSIM between the two images
     similarity_index = ssim(image1, image2, multichannel=True)
@@ -31,6 +33,7 @@ def images_are_same(image1, image2):
     # Check if similarity index is above the threshold
     return similarity_index > threshold
 try:
+    #2388
     for i in range(0, 2388):
         print(i)
         # URL of the webpage to scrape
@@ -55,11 +58,15 @@ try:
                 img_url = img.get('src')
 
                 if img_url and 'displayimg' in img_url:
+                    find_id = img_url.find('id=')
+                    if img_url[find_id + 12] != '0':
+                        index -= 1
 
                     munich_no = tables[index].find_all('td', class_='value')[0].get_text(strip=True)
                     munich_no = munich_no.replace('/', '-')
-                    
+
                     index += 1
+
                     if munich_no != '-':
                         # Construct full URL
 
@@ -73,6 +80,13 @@ try:
                             # Read the image as an array
                             img_array = io.imread(BytesIO(img_response.content))
 
+                            if len(img_array.shape) == 2:
+                                height, width = img_array.shape
+                            else:
+                                height, width, _ =  img_array.shape
+                            all_sizes.append((height,width))
+                            
+
                             if not images_are_same(img_array, keinbild_image):
 
                                 # Extract image filename
@@ -81,7 +95,9 @@ try:
 
                                 find_folder = img_url.find('folder=')
                                 img_basename = img_basename + '_' + img_url[find_folder + 7:]
-                                img_name = f"{munich_no}_{img_basename}"
+
+                                starting_zeros = 4 - len(str(i))
+                                img_name = '0' * starting_zeros + f"{i+1}_{munich_no}_{img_basename}"
 
 
                                 # Ensure the file has a .jpg extension
@@ -99,5 +115,16 @@ try:
 
         except requests.exceptions.RequestException as e:
             print(f"An error occurred: {e}")
+# Can stop the program with ctrl+C
 except KeyboardInterrupt:
     print("Script interrupted by user. Exiting...")
+
+file_path = "image_dimensions.txt"
+
+with open(file_path, 'w') as file:
+    # Iterate over each tuple in the list
+    for size_tuple in all_sizes:
+        # Convert the tuple to a string and write it to the file
+        file.write(f"{size_tuple[0]}x{size_tuple[1]}\n")
+print(all_sizes)
+print(min(all_sizes))
