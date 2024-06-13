@@ -1,4 +1,5 @@
 import cv2
+import os
 import numpy as np
 from matplotlib import pyplot as plt
 
@@ -37,9 +38,26 @@ def sift_similarity(img1, img2):
     similarity_percentage = (num_inliers / num_matches) * 100
     return similarity_percentage
 
-# Load two grayscale images
-img1 = cv2.imread('nk_collection_meubels_cleaned/meubel_1.jpg', cv2.IMREAD_GRAYSCALE)
-img2 = cv2.imread('nk_collection_meubels_cleaned/meubel_3.jpg', cv2.IMREAD_GRAYSCALE)
+image_folder = 'test_dataset_gray'
+
+# List to hold the images
+images_nk = []
+images_mccp = []
+
+# Loop through the files in the directory
+for filename in os.listdir(image_folder):
+    file_path = os.path.join(image_folder, filename)
+    
+    # Read the image file using OpenCV
+    img = cv2.imread(file_path)
+
+    if 'nk' in filename:
+        images_nk.append(img)
+    if 'mccp' in filename:
+        images_mccp.append(img)
+
+img1 = images_nk[0]
+img2 = images_nk[0]
 
 if img1 is None or img2 is None:
     print("Could not open or find the images!")
