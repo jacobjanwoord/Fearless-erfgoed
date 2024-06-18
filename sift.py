@@ -23,13 +23,13 @@ def sift_similarity(img1, img2):
         if m.distance < 0.7 * n.distance:
             good_matches.append(m)
 
-    if len(good_matches) < 4:
+    if len(good_matches) < 10:
         return 0.0
 
     src_pts = np.float32([kp1[m.queryIdx].pt for m in good_matches]).reshape(-1, 2)
     dst_pts = np.float32([kp2[m.trainIdx].pt for m in good_matches]).reshape(-1, 2)
 
-    H, mask = cv2.findHomography(src_pts, dst_pts, cv2.RANSAC, 10.0)
+    H, mask = cv2.findHomography(src_pts, dst_pts, cv2.RANSAC, 5.0)
     matches_mask = mask.ravel().tolist()
 
     num_inliers = np.sum(matches_mask)
@@ -49,18 +49,14 @@ for filename in os.listdir(image_folder):
     file_path = os.path.join(image_folder, filename)
     
     # Read the image file using OpenCV
-    img = cv2.imread(file_path)
+    img = cv2.imread(file_path, cv2.IMREAD_GRAYSCALE)
 
     if 'nk' in filename:
-        images_nk.append(img)
+        images_nk.append((filename, img))
     if 'mccp' in filename:
-        images_mccp.append(img)
+        images_mccp.append((filename, img))
 
-img1 = images_nk[0]
-img2 = images_nk[0]
-
-if img1 is None or img2 is None:
-    print("Could not open or find the images!")
-else:
-    num_good_matches = sift_similarity(img1, img2)
-    print(f"Percentage score: {num_good_matches}")
+for filename_nk, image_nk in images_nk:
+    for filename_mccp, image_mccp in images_mccp:
+        num_good_matches = sift_similarity(image_nk, image_mccp)
+        print(f"Similarity percentage:{filename_nk, filename_mccp} {num_good_matches}")
