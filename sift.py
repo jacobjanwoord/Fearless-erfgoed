@@ -29,7 +29,7 @@ def sift_similarity(img1, img2):
     src_pts = np.float32([kp1[m.queryIdx].pt for m in good_matches]).reshape(-1, 2)
     dst_pts = np.float32([kp2[m.trainIdx].pt for m in good_matches]).reshape(-1, 2)
 
-    H, mask = cv2.findHomography(src_pts, dst_pts, cv2.RANSAC, 5.0)
+    H, mask = cv2.findHomography(src_pts, dst_pts, cv2.RANSAC, 10.0)
     matches_mask = mask.ravel().tolist()
 
     num_inliers = np.sum(matches_mask)
