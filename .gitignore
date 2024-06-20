@@ -3,11 +3,16 @@ scraped_images/
 scraped_images_grayscaled/
 scraped_images_grayscaled_big/
 nk_collection_meubels_cleaned/
+mc_no_back/
+nk_no_back/
+nk_nob/
 Test_dataset/
 test images/
 munich_testset/
 nk_testset/
-Test_dataset_no_back/
+nk_test_no_back/
+munich_testset_no_back/
+test_dataset_no_back/
 sift_test.py
 # Byte-compiled / optimized / DLL files
 __pycache__/
