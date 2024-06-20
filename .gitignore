@@ -10,6 +10,7 @@ Test_dataset/
 test images/
 munich_testset/
 nk_testset/
+test_dataset_no_back/
 sift_test.py
 # Byte-compiled / optimized / DLL files
 __pycache__/
