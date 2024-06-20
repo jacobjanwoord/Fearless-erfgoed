@@ -12,7 +12,7 @@ Test_dataset/
 test images/
 munich_testset/
 nk_testset/
-nk_test_no_back/
+nk_testset_no_back/
 munich_testset_no_back/
 test_dataset_no_back/
 sift_test.py
