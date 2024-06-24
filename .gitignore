@@ -15,6 +15,8 @@ nk_testset/
 nk_testset_no_back/
 munich_testset_no_back/
 test_dataset_no_back/
+nk_collection_schilderij/
+nk_collection_schilderij_cleaned/
 sift_test.py
 # Byte-compiled / optimized / DLL files
 __pycache__/
