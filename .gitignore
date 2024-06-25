@@ -18,6 +18,7 @@ test_dataset_no_back/
 nk_collection_schilderij/
 nk_collection_schilderij_cleaned/
 sift_test.py
+best_inception_v3_weights.pth/
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -180,3 +181,4 @@ cython_debug/
 #  and can be added to the global gitignore or merged into this file.  For a more nuclear
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
+best_inception_v3_weights.pth
