@@ -5,14 +5,22 @@ scraped_images_grayscaled_big/
 nk_collection_meubels_cleaned/
 mc_no_back/
 nk_no_back/
+munich_test_no_back/
+nk_test_no_back/
 nk_nob/
 Test_dataset/
 test images/
 munich_testset/
 nk_testset/
+nk_testset_no_back/
+munich_testset_no_back/
+test_dataset_no_back/
+nk_collection_schilderij/
+nk_collection_schilderij_cleaned/
 sift_test.py
 swin-tiny-patch4-window7-224-finetuned-eurosat/
 random_images/
+best_inception_v3_weights.pth/
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -175,3 +183,4 @@ cython_debug/
 #  and can be added to the global gitignore or merged into this file.  For a more nuclear
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
+best_inception_v3_weights.pth
