@@ -11,6 +11,8 @@ test images/
 munich_testset/
 nk_testset/
 sift_test.py
+swin-tiny-patch4-window7-224-finetuned-eurosat/
+random_images/
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
