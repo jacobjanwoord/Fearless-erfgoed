@@ -1,7 +1,7 @@
+# old files
 nk_collection_meubels/
 scraped_images/
 scraped_images_grayscaled/
-scraped_images_grayscaled_big/
 nk_collection_meubels_cleaned/
 mc_no_back/
 nk_no_back/
@@ -22,6 +22,19 @@ swin-tiny-patch4-window7-224-finetuned-eurosat/
 random_images/
 best_inception_v3_weights.pth/
 best_inception_v3_weights.pth/
+
+#important files
+munich_testset/
+munich_testset_no_back/
+nk_testset/
+nk_testset_no_back/
+scraped_images_grayscaled_big/
+nk_collection_furniture/
+nk_collection_furniture_cleaned/
+nk_collection_paintings/
+nk_collection_paintings_cleaned/
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
